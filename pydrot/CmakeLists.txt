@@ -4,10 +4,15 @@ project(your_pkg LANGUAGES CXX CUDA)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
 
-add_library(qr_cuda MODULE
+add_library(pydrot MODULE
     src/bindings.cpp
     src/qr_bridge.cu
-    # + your other CUDA/C++ sources
+    src/drot_qr.hpp
+    src/param_qr.hpp
+    src/singleexp_qr.cu
+    src/multiexp_qr.cu
+    src/kernel_qr.hpp
+    src/utils.hpp
 )
 set_target_properties(qr_cuda PROPERTIES PREFIX "" CXX_STANDARD 17 CUDA_STANDARD 17)
 
