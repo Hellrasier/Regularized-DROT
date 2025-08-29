@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.20)
+project(your_pkg LANGUAGES CXX CUDA)
+
+find_package(pybind11 CONFIG REQUIRED)
+find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+
+add_library(qr_cuda MODULE
+    src/bindings.cpp
+    src/qr_bridge.cu
+    # + your other CUDA/C++ sources
+)
+set_target_properties(qr_cuda PROPERTIES PREFIX "" CXX_STANDARD 17 CUDA_STANDARD 17)
+
+# If you need fast math/arch flags:
+# target_compile_options(qr_cuda PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:--use_fast_math>)
+# set_property(TARGET qr_cuda PROPERTY CUDA_ARCHITECTURES 80-real;90)
+
+target_link_libraries(qr_cuda PRIVATE pybind11::module cuda cudart)
